@@ -1,5 +1,5 @@
 # debian_markdown_update
-- This project under the project title "Experiment to modernize the Debian Wiki"
+- This project was done under the project title "Experiment to modernize the Debian Wiki"
 - The Script reads the News page in the Debian Wiki , parse the data and write its content to a file in Markdown.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 - Clone this project to your local computer.
