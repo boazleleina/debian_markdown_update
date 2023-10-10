@@ -38,16 +38,17 @@ def get_parse_debian():
 def convert_tag_to_markdown(element):
     # Check the HTML tag and convert to Markdown accordingly
     if element.name == 'p':
-        return element.get_text() + '\n\n'
+        return element.get_text().strip() + '\n\n'
     elif element.name == 'h2':
-        return f"## {element.get_text()}\n\n"
+        return f"## {element.get_text().strip()}\n\n"
     elif element.name == 'ul':
-        return f"{element.get_text()}\n"
+        list_items = [f"- {li.get_text().strip()}" for li in element.find_all('li')]
+        return '\n'.join(list_items) + '\n'
     elif element.name == 'li':
-        return f"- {element.get_text()}\n"
+        return f"- {element.get_text().strip()}\n"
     elif element.name == 'a':
         # Handle links by converting them to Markdown format
-        link_text = element.get_text()
+        link_text = element.get_text().strip()
         link_url = element.get('href')
         return f"[{link_text}]({link_url})"
     else:
