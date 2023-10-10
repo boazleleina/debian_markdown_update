@@ -17,4 +17,4 @@
 
 - If the dependencies installed correctly and the file runs, a new .md file is created called 'debian_wiki,md'
 - The project also has a test file that runs tests on all functions of the debian_markdown.py file. To run tests:
-     - 'python test_debian_markdown.py'
+     - `python test_debian_markdown.py`
