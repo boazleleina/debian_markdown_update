@@ -22,17 +22,18 @@ def get_parse_debian():
         # Send an HTTP GET request to the Debian Wiki page
         response = requests.get(debian_wiki_url)
         
-        # Check the HTTP response status code for errors
-        response.raise_for_status()
+        if response is not None:
+            # Check the HTTP response status code for errors
+            response.raise_for_status()
 
-        # Parse the HTML content using BeautifulSoup
-        soup = BeautifulSoup(response.text, 'html.parser')
+            # Parse the HTML content using BeautifulSoup
+            soup = BeautifulSoup(response.text, 'html.parser')
 
-        return soup  # Return the entire parsed HTML
+            return soup  # Return the entire parsed HTML
 
     except requests.exceptions.RequestException as e:
         print("Error:", e)
-        return None
+        return None  # Return None if there was an error
 
 # Convert HTML to Markdown format
 def convert_tag_to_markdown(element):
@@ -50,9 +51,13 @@ def convert_tag_to_markdown(element):
         # Handle links by converting them to Markdown format
         link_text = element.get_text().strip()
         link_url = element.get('href')
+        if link_url.startswith('/'):
+            # Check if the link has a relative path
+            link_url = f"https://wiki.debian.org{link_url}"
         return f"[{link_text}]({link_url})"
     else:
         return ''
+
 
 # After getting the parsed content, convert it to Markdown and write it to the file
 def markdown_file(soup):
