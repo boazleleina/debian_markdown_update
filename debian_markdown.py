@@ -63,7 +63,8 @@ def markdown_file(soup):
     if soup:
         with open("debian_wiki.md", "w", encoding="utf-8") as file:
             for element in soup.find_all():
-                # Call the convert_tag_to_markdown here to read all the tags and convert them
+                # Call the convert_tag_to_markdown here to read
+                # all the tags and convert them
                 markdown_content = convert_tag_to_markdown(element)
                 if markdown_content:
                     file.write(markdown_content)
