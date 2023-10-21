@@ -47,7 +47,7 @@ class TestDebianMarkdownFunctions(unittest.TestCase):
         # Case 1: Simulate a successful response (status code 200)
         mock_response_200 = Mock()
         mock_response_200.status_code = 200
-        mock_response_200.text = '<p>Test paragraph</p'
+        mock_response_200.text = '<p>Test paragraph</p>'
         mock_get.return_value = mock_response_200
 
         # Test the function for a successful response (status code 200)
@@ -63,9 +63,8 @@ class TestDebianMarkdownFunctions(unittest.TestCase):
         # Test the function for a non-successful response (status code other than 200)
         with self.assertRaises(Exception) as context:
             get_parse_debian()
-        
+
         self.assertEqual(str(context.exception), "Failed to fetch the Debian Wiki News page: 404")
-            # Test the function for a non-successful response (status code other than 200)
 
     def test_markdown_file(self):
         # Mock the BeautifulSoup object with sample content
