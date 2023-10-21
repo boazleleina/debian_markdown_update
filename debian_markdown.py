@@ -18,11 +18,13 @@ def get_parse_debian():
             response.raise_for_status()
 
             # Parse the HTML content using BeautifulSoup
-            soup = BeautifulSoup(response.text, 'html.parser')
+            soup = BeautifulSoup(response.text, "html.parser")
 
             return soup  # Return the entire parsed HTML
         else:
-            raise Exception(f"Failed to fetch the Debian Wiki News page: {response.status_code}")
+            raise Exception(
+                f"Failed to fetch the Debian Wiki News page: {response.status_code}"
+            )
     except requests.exceptions.RequestException as e:
         print("Error:", e)
         return None  # Return None if there was an error
@@ -33,25 +35,25 @@ def convert_tag_to_markdown(element):
     Convert HTML elements to Markdown format.
     """
     # Check the HTML tag and convert to Markdown accordingly
-    if element.name == 'p':
-        return element.get_text().strip() + '\n\n'
-    elif element.name == 'h2':
+    if element.name == "p":
+        return element.get_text().strip() + "\n\n"
+    elif element.name == "h2":
         return f"## {element.get_text().strip()}\n\n"
-    elif element.name == 'ul':
-        list_items = [f"- {li.get_text().strip()}" for li in element.find_all('li')]
-        return '\n'.join(list_items) + '\n'
-    elif element.name == 'li':
+    elif element.name == "ul":
+        list_items = [f"- {li.get_text().strip()}" for li in element.find_all("li")]
+        return "\n".join(list_items) + "\n"
+    elif element.name == "li":
         return f"- {element.get_text().strip()}\n"
-    elif element.name == 'a':
+    elif element.name == "a":
         # Handle links by converting them to Markdown format
         link_text = element.get_text().strip()
-        link_url = element.get('href')
-        if link_url.startswith('/'):
+        link_url = element.get("href")
+        if link_url.startswith("/"):
             # Check if the link has a relative path
             link_url = f"https://wiki.debian.org{link_url}"
         return f"[{link_text}]({link_url})"
     else:
-        return ''
+        return ""
 
 
 def markdown_file(soup):
@@ -59,7 +61,7 @@ def markdown_file(soup):
     Convert parsed HTML to Markdown and write to a file.
     """
     if soup:
-        with open('debian_wiki.md', 'w', encoding='utf-8') as file:
+        with open("debian_wiki.md", "w", encoding="utf-8") as file:
             for element in soup.find_all():
                 # Call the convert_tag_to_markdown here to read all the tags and convert them
                 markdown_content = convert_tag_to_markdown(element)
