@@ -1,15 +1,3 @@
-"""
-- To run this script, I installed dependencies including requests and beautifulsoup4 for web-scraping
-    - pip install requests
-    - pip install beautifulsoup4
-
-- cd into the directory with the fiie, and run
-    - python debian_markdown.py
-
-- If the dependencies installed correctly and the file runs, a new .md file is created called 'debian_wiki,md'
-
-
-"""
 import requests
 from bs4 import BeautifulSoup
 
@@ -20,9 +8,9 @@ debian_wiki_url = "https://wiki.debian.org/News"
 def get_parse_debian():
     try:
         # Send an HTTP GET request to the Debian Wiki page
-        response = requests.get(debian_wiki_url)
+        response = requests.get(debian_wiki_url, allow_redirects=True)
         
-        if response is not None:
+        if response is not None and response.status_code == 200:
             # Check the HTTP response status code for errors
             response.raise_for_status()
 
@@ -30,7 +18,8 @@ def get_parse_debian():
             soup = BeautifulSoup(response.text, 'html.parser')
 
             return soup  # Return the entire parsed HTML
-
+        else:
+            raise Exception(f"Failed to fetch the Debian Wiki News page: {response.status_code}")
     except requests.exceptions.RequestException as e:
         print("Error:", e)
         return None  # Return None if there was an error
