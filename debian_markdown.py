@@ -4,12 +4,15 @@ from bs4 import BeautifulSoup
 # URL of the Debian Wiki News page
 debian_wiki_url = "https://wiki.debian.org/News"
 
-# Function to fetch and parse the Debian Wiki page
+
 def get_parse_debian():
+    """
+    Fetch and parse the Debian Wiki page.
+    """
     try:
         # Send an HTTP GET request to the Debian Wiki page
         response = requests.get(debian_wiki_url, allow_redirects=True)
-        
+
         if response is not None and response.status_code == 200:
             # Check the HTTP response status code for errors
             response.raise_for_status()
@@ -24,8 +27,11 @@ def get_parse_debian():
         print("Error:", e)
         return None  # Return None if there was an error
 
-# Convert HTML to Markdown format
+
 def convert_tag_to_markdown(element):
+    """
+    Convert HTML elements to Markdown format.
+    """
     # Check the HTML tag and convert to Markdown accordingly
     if element.name == 'p':
         return element.get_text().strip() + '\n\n'
@@ -46,24 +52,27 @@ def convert_tag_to_markdown(element):
         return f"[{link_text}]({link_url})"
     else:
         return ''
-        
-# After getting the parsed content, convert it to Markdown and write it to the file
+
+
 def markdown_file(soup):
+    """
+    Convert parsed HTML to Markdown and write to a file.
+    """
     if soup:
         with open('debian_wiki.md', 'w', encoding='utf-8') as file:
             for element in soup.find_all():
-                #Call the convert_tag_to_markdown here to read all the tags and convert them
+                # Call the convert_tag_to_markdown here to read all the tags and convert them
                 markdown_content = convert_tag_to_markdown(element)
                 if markdown_content:
                     file.write(markdown_content)
         print("Debian Wiki News page has been written to debian_wiki.md")
 
-# Check if the script is being run as the main program
+
 if __name__ == "__main__":
     # Fetch and parse the content from the Debian Wiki page
     debian_news_content = get_parse_debian()
-    
+
     # If content was successfully retrieved and parsed
-    ## Call the markdown_file function to save the content to a Markdown file
+    # Call the markdown_file function to save the content to a Markdown file
     if debian_news_content:
         markdown_file(debian_news_content)
