@@ -64,7 +64,7 @@ class TestDebianMarkdownFunctions(unittest.TestCase):
         # Simulate a non-200 status code
         mock_response_not_200.status_code = 404
         mock_get.return_value = mock_response_not_200
-        # Test the function for a non-successful response 
+        # Test the function for a non-successful response
         with self.assertRaises(Exception) as context:
             get_parse_debian()
 
