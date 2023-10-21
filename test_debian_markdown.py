@@ -59,12 +59,12 @@ class TestDebianMarkdownFunctions(unittest.TestCase):
         mock_response_200.raise_for_status.assert_called()
         self.assertIsInstance(result_200, BeautifulSoup)
 
-        # Case 2: Simulate a non-successful response (status code other than 200)
+        # Case:Simulate a non-successful response (status code other than 200)
         mock_response_not_200 = Mock()
-        # Simulate a non-200 status code (you can change it to any other status code)
+        # Simulate a non-200 status code
         mock_response_not_200.status_code = 404
         mock_get.return_value = mock_response_not_200
-        # Test the function for a non-successful response (status code other than 200)
+        # Test the function for a non-successful response 
         with self.assertRaises(Exception) as context:
             get_parse_debian()
 
