@@ -46,8 +46,7 @@ def convert_tag_to_markdown(element):
         return f"[{link_text}]({link_url})"
     else:
         return ''
-
-
+        
 # After getting the parsed content, convert it to Markdown and write it to the file
 def markdown_file(soup):
     if soup:
