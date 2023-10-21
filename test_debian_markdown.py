@@ -3,14 +3,13 @@ from bs4 import BeautifulSoup
 from debian_markdown import get_parse_debian, convert_tag_to_markdown, markdown_file
 from unittest.mock import patch, Mock
 
-
 class TestConvertTagToMarkdown(unittest.TestCase):
+    
     def test_paragraph_conversion(self):
         html = '<p>Test paragraph</p>'
         expected = 'Test paragraph\n\n'
         result = convert_tag_to_markdown(BeautifulSoup(html, 'html.parser').p)
         self.assertEqual(result, expected)
-
 
     def test_heading_conversion(self):
         html = '<h2>Test heading</h2>'
@@ -18,13 +17,11 @@ class TestConvertTagToMarkdown(unittest.TestCase):
         result = convert_tag_to_markdown(BeautifulSoup(html, 'html.parser').h2)
         self.assertEqual(result, expected)
 
-
     def test_unordered_list_conversion(self):
         html = '<ul><li>Item 1</li><li>Item 2</li></ul>'
         expected = '- Item 1\n- Item 2\n'  # Corrected expected format
         result = convert_tag_to_markdown(BeautifulSoup(html, 'html.parser').ul)
         self.assertEqual(result, expected)
-
 
     def test_list_item_conversion(self):
         html = '<li>List item</li>'
@@ -32,13 +29,11 @@ class TestConvertTagToMarkdown(unittest.TestCase):
         result = convert_tag_to_markdown(BeautifulSoup(html, 'html.parser').li)
         self.assertEqual(result, expected)
 
-
     def test_link_conversion(self):
         html = '<a href="https://example.com">Example Link</a>'
         expected = '[Example Link](https://example.com)'
         result = convert_tag_to_markdown(BeautifulSoup(html, 'html.parser').a)
         self.assertEqual(result, expected)
-
 
     def test_unknown_tag_conversion(self):
         # Test with an unsupported tag (should return an empty string)
@@ -47,8 +42,8 @@ class TestConvertTagToMarkdown(unittest.TestCase):
         result = convert_tag_to_markdown(BeautifulSoup(html, 'html.parser').div)
         self.assertEqual(result, expected)
 
-
 class TestDebianMarkdownFunctions(unittest.TestCase):
+    
     @patch('debian_markdown.requests.get')
     def test_get_parse_debian(self, mock_get):
         # Case 1: Simulate a successful response (status code 200)
@@ -73,7 +68,6 @@ class TestDebianMarkdownFunctions(unittest.TestCase):
             get_parse_debian()
 
         self.assertEqual(str(context.exception), "Failed to fetch the Debian Wiki News page: 404")
-
 
     def test_markdown_file(self):
         # Mock the BeautifulSoup object with sample content
